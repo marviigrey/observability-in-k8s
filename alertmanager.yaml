@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+ name: alert-config
+ 
+ labels: 
+      resource : prometheus
+      
+spec: 
+  route: 
+    groupBy: ["severity"]
+    receiver: "webhook"
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 12h
+    # This is the interval at which Prometheus will scrape metrics from this endpoint, defaulting to every minute if not specified.
+  receivers: 
+  - name: "webhook"
+    webhookConfigs:
+    - url: 

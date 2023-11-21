@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+ name: api-service-monitor
+ namespace: default
+ labels: 
+      release: prometheus
+      app: prometheus
+spec: 
+  jobLabel: job #matches the label of our jobName in our svc.
+  endpoints:
+    - interval: 30s #scrape every metrics 30s
+      path: /swagger-stats/metrics
+      port: web #name of the port of the svc of our api
+  selector:
+    matchLabels: 
+      app: api #label matches the app service we are trying to scrape.
